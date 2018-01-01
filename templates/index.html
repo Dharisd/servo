@@ -1,0 +1,119 @@
+<html>
+    <body>
+        <script type=text/javascript src="{{url_for('static',filename='jquery.js') }}"></script>
+        
+            <script>
+            $(document).ready(function(){
+                $("#btn").click(function(){
+                    fetch("/move",{
+                            method: 'POST',
+                            headers:{'Content-Type':'application/x-www-form-urlencoded',},
+                            body: 'angle=' + 48
+                            
+
+                        }).then(function(response){
+                            return response.text();
+                        }).then(function(output){
+                            $("#cangle").html("Angle: 0")
+
+                            
+
+                        })
+                })
+            })
+
+
+
+
+
+            </script>
+            <script>
+            $(document).ready(function(){
+                $("#btn2").click(function(){
+                    fetch("/move",{
+                            method: 'POST',
+                            headers:{'Content-Type':'application/x-www-form-urlencoded',},
+                            body: 'angle=' + 49
+                            
+
+                        }).then(function(response){
+                            return response.text();
+                        }).then(function(output){
+                            $("#cangle").html("Angle: 180");
+                            console.log(output);
+                            
+
+                        })
+                })
+            })
+
+
+
+
+
+            </script>
+            <script>
+            $(document).ready(function(){
+                $("#get").click(function(){
+                    fetch("/connect",{
+                        method: "POST",
+                        headers:{'Content-Type':'application/x-www-form-urlencoded',},
+                        body:"action="+ $("#get").val()
+                    }).then(function(response){
+                        return response.text();
+                    }).then(function(data){
+                        var status = JSON.parse(data);
+                        $("#get").val(status[0]);
+                        $("#get").html(status[0]);
+                        $("#status").html("Status:" + status[1])
+                        if ($("#get").val() == "disconnect"){
+                            $("#btn").show();
+                            $("#btn2").show();
+                        }
+                    })
+                    
+
+                });
+
+            })
+
+            </script>
+            <script>
+            $(document).ready(function(){
+                
+                    fetch("/connect",{
+                        method: "POST",
+                        headers:{'Content-Type':'application/x-www-form-urlencoded',},
+                        body:"action="+ $("#get").val()
+                    }).then(function(response){
+                        return response.text();
+                    }).then(function(data){
+                        console.log(data)
+                        var status = JSON.parse(data);
+                        $("#get").val(status[0]);
+                        $("#get").html(status[0]);
+                        $("#status").html("Status:" + status[1])
+                        if ($("#get").val() == "disconnect"){
+                            $("#btn").show();
+                            $("#btn2").show();
+                        }
+                    })
+                    
+
+                
+
+            })
+
+            </script>
+            <div id="info">
+        <h1 id="status">Status:disconnected</h1>
+        <button id="get" type="button" value="connect">connect</button>
+        <p id="cangle">angle</p>
+            </div>
+
+        <div id="control">
+        <button id="btn" type="button" value="buttuon" hidden>turn</button>
+         <button id="btn2" type="button" value="buttuon" hidden>turn</button>
+        </div>
+        </body>
+</html>
