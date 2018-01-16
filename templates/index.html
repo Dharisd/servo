@@ -2,20 +2,28 @@
     <body>
         <script type=text/javascript src="{{url_for('static',filename='jquery.js') }}"></script>
         
+            
             <script>
+                
+            
             $(document).ready(function(){
                 $("#btn").click(function(){
                     fetch("/move",{
                             method: 'POST',
                             headers:{'Content-Type':'application/x-www-form-urlencoded',},
-                            body: 'angle=' + 48
+                            body: 'angle=' + $("#btn").val()
                             
 
                         }).then(function(response){
                             return response.text();
                         }).then(function(output){
-                            $("#cangle").html("Angle: 0")
-
+                            var state = JSON.parse(output);
+                            $("#cangle").html("Angle:"+state[1]);
+                            console.log(state);
+                            
+                            
+                            $("#btn").val(state[0])
+                            $("#btn").html(state[0]);
                             
 
                         })
@@ -28,33 +36,10 @@
 
             </script>
             <script>
-            $(document).ready(function(){
-                $("#btn2").click(function(){
-                    fetch("/move",{
-                            method: 'POST',
-                            headers:{'Content-Type':'application/x-www-form-urlencoded',},
-                            body: 'angle=' + 49
-                            
 
-                        }).then(function(response){
-                            return response.text();
-                        }).then(function(output){
-                            $("#cangle").html("Angle: 180");
-                            console.log(output);
-                            
-
-                        })
-                })
-            })
-
-
-
-
-
-            </script>
-            <script>
             $(document).ready(function(){
                 $("#get").click(function(){
+                    
                     fetch("/connect",{
                         method: "POST",
                         headers:{'Content-Type':'application/x-www-form-urlencoded',},
@@ -68,7 +53,7 @@
                         $("#status").html("Status:" + status[1])
                         if ($("#get").val() == "disconnect"){
                             $("#btn").show();
-                            $("#btn2").show();
+                            
                         }
                     })
                     
@@ -95,7 +80,7 @@
                         $("#status").html("Status:" + status[1])
                         if ($("#get").val() == "disconnect"){
                             $("#btn").show();
-                            $("#btn2").show();
+                            
                         }
                     })
                     
@@ -112,7 +97,7 @@
             </div>
 
         <div id="control">
-        <button id="btn" type="button" value="buttuon" hidden>turn</button>
+        <button id="btn" type="button" value="on" hidden>on</button>
          <button id="btn2" type="button" value="buttuon" hidden>turn</button>
         </div>
         </body>
